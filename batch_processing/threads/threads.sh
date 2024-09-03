@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --time=00:10:00
 
-export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
+export NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
 
 ./monte_carlo_π 1000000000
 

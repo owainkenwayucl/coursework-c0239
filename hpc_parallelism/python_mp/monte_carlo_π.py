@@ -22,9 +22,9 @@ if __name__ == "__main__":
   num_procs = 1
 
   try: 
-    num_procs = os.environ("NUM_PROCS")
+    num_procs = os.environ[NUM_PROCS"]
   except:
-    num_procs = 1
+    num_procs = cpu_count()
 
   random.seed()
   manual_seed = False
@@ -56,12 +56,12 @@ if __name__ == "__main__":
   
   chunks = []
   for a in range(num_procs):
-    chunks.append((num_steps/num_procs))
+    chunks.append(int(num_steps/num_procs))
     if a < num_steps%num_procs:
       chunks[a] += 1
 
     processes.append(Process(target=pi_chunk, args=(q, seeds[a], chunks[a] )))
-    
+    processes[a].start()
 
   print(chunks)
 

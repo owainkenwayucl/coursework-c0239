@@ -17,7 +17,7 @@ if len(sys.argv) > 2:
   manual_seed = True
 
 print("Calculating PI with:\n  %d slices" % num_steps)
-print(" 1 process.")
+print(" 1 process.b")
 
 if manual_seed:
     print("  Manual seed %d" % int(sys.argv[2]))
@@ -26,8 +26,7 @@ if manual_seed:
 total_sum = 0
 step = 1.0 / num_steps
 
-if (rank == 0):
-  start = time.time()
+start = time.time()
  
 for i in range(0, num_steps):
   x = random.random()

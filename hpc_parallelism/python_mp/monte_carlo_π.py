@@ -63,7 +63,7 @@ if __name__ == "__main__":
     processes.append(Process(target=pi_chunk, args=(q, seeds[a], chunks[a] )))
     processes[a].start()
 
-  print(chunks)
+  #print(chunks) # Uncomment to print out decomposition
 
   for a in range(num_procs):
     total_sum += q.get()

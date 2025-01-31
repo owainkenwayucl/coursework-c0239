@@ -23,6 +23,8 @@ if __name__ == "__main__":
 
   try: 
     num_procs = os.environ("NUM_PROCS")
+  except:
+    num_procs = 1
 
   random.seed()
   manual_seed = False

@@ -56,7 +56,7 @@ if __name__ == "__main__":
   
   chunks = []
   for a in range(num_procs):
-    chunks[a] = int(num_steps/num_procs)
+    chunks.append((num_steps/num_procs))
     if a < num_steps%num_procs:
       chunks[a] += 1
 

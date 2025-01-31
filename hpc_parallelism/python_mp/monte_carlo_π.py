@@ -16,7 +16,7 @@ def pi_chunk(q, seed, num_steps):
       total_sum += 1
   q.put(total_sum)
 
-if __name__ = "__main__"
+if __name__ == "__main__"
   q = Queue()
   processes = []
     num_procs = 1

@@ -43,7 +43,6 @@ if __name__ == "__main__":
 
   if manual_seed:
       print("  Manual seed %d" % int(sys.argv[2]))
-      random.seed(seed)
 
   seeds = []
   for a in range(num_procs):

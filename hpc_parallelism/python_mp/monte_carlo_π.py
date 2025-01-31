@@ -22,7 +22,7 @@ if __name__ == "__main__":
   num_procs = 1
 
   try: 
-    num_procs = os.environ["NUM_PROCS"]
+    num_procs = int(os.environ["NUM_PROCS"])
   except:
     num_procs = cpu_count()
 

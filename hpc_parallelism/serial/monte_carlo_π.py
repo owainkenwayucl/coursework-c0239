@@ -16,14 +16,12 @@ if len(sys.argv) > 2:
   random.seed(int(sys.argv[2]))
   manual_seed = True
 
-seeds = []
-
 print("Calculating PI with:\n  %d slices" % num_steps)
 print("  %d process(s)" % size)
-if manual_seed:
-print("  Manual seed %d" % int(sys.argv[2]))
 
-random.seed(seed)
+if manual_seed:
+    print("  Manual seed %d" % int(sys.argv[2]))
+    random.seed(seed)
 
 total_sum = 0
 step = 1.0 / num_steps

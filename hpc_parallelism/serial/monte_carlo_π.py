@@ -17,7 +17,7 @@ if len(sys.argv) > 2:
   manual_seed = True
 
 print("Calculating PI with:\n  %d slices" % num_steps)
-print(" 1 process.b")
+print("  1 process.")
 
 if manual_seed:
     print("  Manual seed %d" % int(sys.argv[2]))

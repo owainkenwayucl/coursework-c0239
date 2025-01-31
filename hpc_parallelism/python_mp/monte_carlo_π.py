@@ -19,7 +19,7 @@ def pi_chunk(q, seed, num_steps):
 if __name__ == "__main__":
   q = Queue()
   processes = []
-    num_procs = 1
+  num_procs = 1
 
   try: 
     num_procs = os.environ("NUM_PROCS")

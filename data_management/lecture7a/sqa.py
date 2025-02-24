@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column, Integer, Float, String, MetaData, ForeignKey, create_engine
 
-engine = create_engine("sqlite:///:memory:")
+engine = create_engine("sqlite:///:memory:", echo=True)
 metadata = MetaData()
 molecules = Table('molecules', metadata,
                   Column('name', String, primary_key=True),
@@ -18,4 +18,3 @@ atoms_in_molecules = Table('atoms_molecules', metadata,
 )
 
 metadata.create_all(engine)
-print(metadata)

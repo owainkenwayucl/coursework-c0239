@@ -1,4 +1,6 @@
-from sqlalchemy import Table, Column, Integer, Float, String, MetaData, ForeignKey
+from sqlalchemy import Table, Column, Integer, Float, String, MetaData, ForeignKey, create_engine
+
+engine = create_engine("sqlite:///:memory:")
 metadata = MetaData()
 molecules = Table('molecules', metadata,
                   Column('name', String, primary_key=True),

@@ -30,7 +30,6 @@ atoms_in_molecules = Table('atoms_molecules', metadata,
 metadata.create_all(engine)
 
 conn = engine.connect()
-conn.execute(ins)
 
 conn.execute(molecules.insert().values(name='water', mass='18.01'))
 conn.execute(molecules.insert().values(name='oxygen', mass='16.00'))

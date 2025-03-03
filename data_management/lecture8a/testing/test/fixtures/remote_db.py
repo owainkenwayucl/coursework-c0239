@@ -30,7 +30,7 @@ def remote_cursor(stage):
     (user, password) = user_and_password()
     host = remote_host(stage)
 
-    with psycopg2.connect(database='test',user=user,password=password,
+    with psycopg2.connect(database='molecules',user=user,password=password,
                             host = host, port=5432) as connection:
         with connection.cursor() as cursor:
             yield cursor
@@ -39,4 +39,4 @@ def remote_cursor(stage):
 def remote(stage):
     (user, password) = user_and_password()
     host = remote_host(stage)
-    yield create_engine(f"postgresql+psycopg2://{user}:{password}@{host}/molecules_ansible?sslmode=require")
+    yield create_engine(f"postgresql+psycopg2://{user}:{password}@{host}/molecules?sslmode=require")

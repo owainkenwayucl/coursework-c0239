@@ -37,7 +37,6 @@ def remote_cursor(stage):
 
 @contextlib.contextmanager
 def remote(stage):
-    # Get the IP address of our DB server by querying AWS through boto
     (user, password) = user_and_password()
     host = remote_host(stage)
-    yield create_engine(f"postgresql+psycopg2://{user}:{password}@{host}/test")
+    yield create_engine(f"postgresql+psycopg2://{user}:{password}@{host}/molecules_ansible?sslmode=require")

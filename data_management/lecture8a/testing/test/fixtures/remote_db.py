@@ -7,8 +7,8 @@ from sqlalchemy import create_engine
 import psycopg2
 
 def user_and_password():
-    ansible = os.path.join(os.path.dirname(os.path.dirname(
-      os.path.dirname(os.path.dirname(__file__)))),'..')
+    ansible = os.path.join(os.path.dirname(
+      os.path.dirname(os.path.dirname(__file__))),'..')
     print(ansible)
     password = ""
     with open(os.path.join(ansible,'.postgrespass'), 'r') as passfile:
@@ -18,8 +18,8 @@ def user_and_password():
     return (user, password)
 
 def remote_host(stage):
-    ansible = os.path.join(os.path.dirname(os.path.dirname(
-      os.path.dirname(os.path.dirname(__file__)))),'..')
+    ansible = os.path.join(os.path.dirname(
+      os.path.dirname(os.path.dirname(__file__))),'..')
     print(ansible)
     ip_data = json.loads(subprocess.run("terraform output --json primary_ips".split(), cwd="../base-cluster-environment", capture_output=True, encoding='UTF-8').stdout)
     ip_addr = ip_data.pop()

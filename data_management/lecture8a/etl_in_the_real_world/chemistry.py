@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine, sessionmaker
 from sqlalchemy.orm import relationship, declarative_base, mapped_column, Mapped
 from typing import List
 from contextlib import contextmanager

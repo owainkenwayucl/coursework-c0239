@@ -27,6 +27,14 @@ class Element(Base):
     symbol: Mapped[str] = mapped_column(primary_key=True)
     molecules: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="element")
 
+elements = {}
+
+def element_factory(symbol):
+    if not symbol in elements:
+        elements[symbol] = Element(symbol = symbol)
+    return elements[symbol]
+
+
 class Participant(Base):
     __tablename__ = "participant"
     reaction_id: Mapped[int] = mapped_column(ForeignKey("reactions.id"), primary_key=True)
@@ -40,7 +48,8 @@ class Molecule(Base):
     name: Mapped[str] = mapped_column(primary_key=True)
     elements: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="molecule")
     reactions: Mapped[List["Participant"]] = relationship(back_populates= "molecule")
-    def add_atom(self, number, atom):
+    def add_atom(self, number, symbol):
+        atom = element_factory(symbol)
         result = AtomsPerMolecule(number = number)
         result.element = atom
         self.elements.append(result)
@@ -82,16 +91,6 @@ def add_items(items, session):
     for (n, item) in enumerate(items):
         logger.info(f"Saving reaction {n}/{count}")
         add_item(item, session)
-
-'''
-def add_item(item, session):
-    logger.debug(f"Merging reaction") # flip this stuff so that merging works
-    to_save = session.merge(item)
-    logger.debug(f"Saving reaction")
-    session.add(item)
-    session.add(to_save)
-    session.flush()
-'''
 
 def add_item(item, session):
     logger.debug(f"Saving reaction")

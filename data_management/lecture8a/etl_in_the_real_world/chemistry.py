@@ -103,7 +103,7 @@ from contextlib import contextmanager
 
 @contextmanager
 def sqlite():
-    engine = sqlalchemy.create_engine('sqlite:///test.db')
+    engine = create_engine('sqlite:///test.db')
     yield engine
     try:
         os.remove('test.db')

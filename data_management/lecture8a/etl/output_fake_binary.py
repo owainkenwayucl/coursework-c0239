@@ -1,5 +1,4 @@
 from chemistry_id import System, FakeSaveBinary
-import yaml
 
 if __name__ == '__main__':
 

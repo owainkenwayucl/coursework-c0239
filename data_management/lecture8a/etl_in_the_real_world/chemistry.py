@@ -93,11 +93,19 @@ def add_items(items, session):
         logger.info(f"Saving reaction {n}/{count}")
         add_item(item, session)
 
+'''
 def add_item(item, session):
-    logger.debug(f"Merging reaction")
+    logger.debug(f"Merging reaction") # flip this stuff so that merging works
     to_save = session.merge(item)
     logger.debug(f"Saving reaction")
+    session.add(item)
     session.add(to_save)
+    session.flush()
+'''
+
+def add_item(item, session):
+    logger.debug(f"Saving reaction")
+    session.add(item)
     session.flush()
 
 from contextlib import contextmanager

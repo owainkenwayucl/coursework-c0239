@@ -3,7 +3,7 @@ This file describes the data model which we will use.
 It uses SQLAlchemy ORM to define the database tables.
 """
 
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker, mapped_column, Mapped
 from typing import List
 

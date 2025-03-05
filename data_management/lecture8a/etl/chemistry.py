@@ -12,6 +12,9 @@ class Molecule:
     def to_struct(self):
         return {x.symbol: self.elements[x] for x in self.elements}
  
+    def __str__(self):
+        return str(self.to_struct()).replace("'",'"')
+
 class Reaction:
     def __init__(self):
         self.reactants = { } # Map from reactants to stoichiometries
@@ -30,7 +33,10 @@ class Reaction:
             'stoichiometries' : list(self.reactants.values())+
                                 list(self.products.values())
         }
-     
+
+    def __str__(self):
+        return str(self.to_struct()).replace("'",'"')
+
 class System:
     def __init__(self):
         self.reactions=[]
@@ -40,3 +46,37 @@ class System:
     def to_struct(self):
         return [x.to_struct() for x in self.reactions]
 
+    def __str__(self):
+        return str(self.to_struct()).replace("'",'"')
+
+class DeSerialiseStructure:
+    def __init__(self):
+        self.elements = {}
+        self.molecules = {}
+        
+    def add_element(self, candidate):
+        if candidate not in self.elements:
+            self.elements[candidate]=Element(candidate)
+        return self.elements[candidate]
+    
+    def add_molecule(self, candidate):
+        if tuple(candidate.items()) not in self.molecules:
+            m = Molecule()
+            for symbol, number in candidate.items():
+                m.add_element(self.add_element(symbol), number)
+            self.molecules[tuple(candidate.items())]=m
+        return self.molecules[tuple(candidate.items())]
+    
+    def parse_system(self, json_struct):
+        s = System()
+        for reaction in json_struct:
+            r = Reaction()
+            stoichiometries = reaction['stoichiometries']
+            for molecule in reaction['reactants']:
+                r.add_reactant(self.add_molecule(molecule),
+                               stoichiometries.pop(0))
+            for molecule in reaction['products']:
+                r.add_product(self.add_molecule(molecule),
+                               stoichiometries.pop(0))
+            s.add_reaction(r)
+        return s

@@ -50,4 +50,4 @@ if __name__ == '__main__':
     reactions.add_reaction(burning_hydrogen)
     reactions.add_reaction(burning_methane)
 
-    print(reactions.to_struct())
+    print(reactions)

@@ -49,7 +49,7 @@ if __name__ == '__main__':
     burning_methane.add_product(water,2)
 
     xdrsys = XDRSavingSystem(system)
-    xdrbuffer = xdrs.save()
+    xdrbuffer = xdrsys.save()
     buffer = xdrbuff.get_buffer()
 
     print(f"Buffer as binary: {buffer}")

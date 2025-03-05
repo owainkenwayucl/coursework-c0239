@@ -91,3 +91,28 @@ class System: # This will be our factory
 
     def __str__(self):
         return str(self.to_struct()).replace("'",'"')
+
+class FakeSaveBinary: # Pretend binary-style writing to a list
+    # to make it easier to read at first.    
+    def save(self, system, buffer):
+        buffer.append(len(system.elements))
+        for element in system.elements:
+            buffer.append(element.symbol)
+        
+        buffer.append(len(system.molecules))
+        for molecule in system.molecules:
+            buffer.append(len(molecule.elements))
+            for element, number in molecule.elements.items():
+                buffer.append(element.id)
+                buffer.append(number)
+        
+        buffer.append(len(system.reactions))
+        for reaction in system.reactions:
+            buffer.append(len(reaction.reactants))
+            for reactant, stoich in reaction.reactants.items():
+                buffer.append(reactant.id)
+                buffer.append(stoich)
+            buffer.append(len(reaction.products))
+            for product, stoich in reaction.products.items():
+                buffer.append(product.id)
+                buffer.append(stoich)

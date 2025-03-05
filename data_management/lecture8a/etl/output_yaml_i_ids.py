@@ -2,7 +2,7 @@ from chemistry_id import Molecule, Element, Reaction, System
 
 if __name__ == '__main__':
     h = Element('H',1)
-    c = Element('C,'16)
+    c = Element('C',16)
     o = Element('O',12)
 
     carbon_dioxide = Molecule(1)

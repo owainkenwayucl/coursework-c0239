@@ -116,3 +116,42 @@ class FakeSaveBinary: # Pretend binary-style writing to a list
             for product, stoich in reaction.products.items():
                 buffer.append(product.id)
                 buffer.append(stoich)
+
+class XDRSavingSystem(System):
+    
+    def __init__(self, system):
+        # Shallow Copy constructor
+        self.elements = system.elements
+        self.reactions = system.reactions
+        self.molecules = system.molecules
+        
+    def save(self):
+                 
+        import xdrlib
+        
+        buffer = xdrlib.Packer()
+        
+        el_symbols = list(map(lambda x: x.symbol.encode('utf-8'), 
+                                   self.elements))
+        buffer.pack_array(el_symbols,
+                          buffer.pack_string)
+        #AUTOMATICALLY packs the length of the array first!
+
+        def _pack_pair(item):
+             buffer.pack_int(item[0].id)
+             buffer.pack_int(item[1])
+        
+        def _pack_molecule(mol):
+            buffer.pack_array(mol.elements.items(), 
+                              _pack_pair)
+        
+        buffer.pack_array(self.molecules, _pack_molecule)
+        
+        def _pack_reaction(reaction):
+            buffer.pack_array(reaction.reactants.items(),
+                            _pack_pair)
+            buffer.pack_array(reaction.products.items(),
+                             _pack_pair)
+        
+        buffer.pack_array(self.reactions, _pack_reaction)
+        return buffer

@@ -1,8 +1,8 @@
-from chemistry_id import XDRSavingSystem, FakeSaveBinary
+from chemistry_id import System, XDRSavingSystem, FakeSaveBinary
 
 if __name__ == '__main__':
 
-    system = XDRSavingSystem()
+    system = System()
 
     c = system.add_element('C')
     o = system.add_element('O')
@@ -48,9 +48,10 @@ if __name__ == '__main__':
     burning_methane.add_product(carbon_dioxide,1)
     burning_methane.add_product(water,2)
 
-    xdrbuffer = system.save()
+    xdrsys = XDRSavingSystem(system)
+    xdrbuffer = xdrs.save()
     buffer = xdrbuff.get_buffer()
-    
+
     print(f"Buffer as binary: {buffer}")
 
     with open('system.xdr','bw') as binfile:

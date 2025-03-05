@@ -1,30 +1,30 @@
 from chemistry_id import Molecule, Element, Reaction, System
 
 if __name__ == '__main__':
-    h = Element('H')
-    c = Element('C')
-    o = Element('O')
+    h = Element('H',1)
+    c = Element('C,'16)
+    o = Element('O',12)
 
-    carbon_dioxide = Molecule()
+    carbon_dioxide = Molecule(1)
     carbon_dioxide.add_element(c,1)
     carbon_dioxide.add_element(o,2)
 
-    oxygen = Molecule()
+    oxygen = Molecule(2)
     oxygen.add_element(o,2)
 
-    hydrogen = Molecule()
+    hydrogen = Molecule(3)
     hydrogen.add_element(h,2)
 
-    water = Molecule()
+    water = Molecule(4)
     water.add_element(h,2)
     water.add_element(o,1)
 
-    glucose = Molecule()
+    glucose = Molecule(5)
     glucose.add_element(c,6)
     glucose.add_element(h,12)
     glucose.add_element(o,6)
 
-    methane = Molecule()
+    methane = Molecule(5)
     methane.add_element(c,1)
     methane.add_element(h,4)
 

@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
     xdrsys = XDRSavingSystem(system)
     xdrbuffer = xdrsys.save()
-    buffer = xdrbuff.get_buffer()
+    buffer = xdrbuffer.get_buffer()
 
     print(f"Buffer as binary: {buffer}")
 

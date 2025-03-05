@@ -1,9 +1,12 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine
 from sqlalchemy.orm import relationship, declarative_base, mapped_column, Mapped
 from typing import List
+import logging
 
-#engine = create_engine('sqlite:///molecules.db')
 Base = declarative_base()
+cascade = "all, delete-orphan"
+
+logger = logging.getLogger('ETL')
 
 class AtomsPerMolecule(Base):
     __tablename__ = "_atoms_per_molecule_"
@@ -17,6 +20,13 @@ class Element(Base):
     __tablename__ = "elements"
     symbol: Mapped[str] = mapped_column(primary_key=True)
     molecules: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="element")
+
+elements = {}
+
+def element_factory(symbol):
+    if not symbol in elements:
+        elements[symbol] = Element(symbol = symbol)
+    return elements[symbol]
 
 class Participant(Base):
     __tablename__ = "participant"
@@ -46,3 +56,36 @@ class Reaction(Base):
         result.molecule=molecule
         self.molecules.append(result)
         return result
+
+    def reactants(self):
+        for participant in self.molecules:
+            if participant.stoichiometry <0 :
+                yield participant
+
+    def products(self):
+        for participant in self.molecules:
+            if participant.stoichiometry >0 :
+                yield participant
+    
+
+def create_tables(engine):
+    Base.metadata.create_all(engine)
+
+def drop_tables(engine):
+    Base.metadata.drop_all(engine)
+
+def session(engine):
+    return sessionmaker(bind = engine)()
+
+def add_items(items, session):
+    count = len(items)
+    for (n, item) in enumerate(items):
+        logger.info(f"Saving reaction {n}/{count}")
+        add_item(item, session)
+
+def add_item(item, session):
+    logger.debug(f"Merging reaction")
+    to_save = session.merge(item)
+    logger.debug(f"Saving reaction")
+    session.add(to_save)
+    session.flush()

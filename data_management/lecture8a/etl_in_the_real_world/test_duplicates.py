@@ -1,5 +1,4 @@
-from chemistry import Element, Molecule, Reaction
-from sqlalchemy import *
+from chemistry import Element, Molecule, Reaction, session, add_items, create_tables
 
 def tiny_db():
     oxygen = Element(symbol='O')

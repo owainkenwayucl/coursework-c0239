@@ -4,7 +4,7 @@ import json
 if __name__ == '__main__':
 
     system = System()
-    
+
     c = system.add_element('C')
     o = system.add_element('O')
     h = system.add_element('H')
@@ -13,15 +13,15 @@ if __name__ == '__main__':
     carbon_dioxide.add_element(c,1)
     carbon_dioxide.add_element(o,2)
 
+    water = system.add_molecule()
+    water.add_element(h,2)
+    water.add_element(o,1)
+
     oxygen = system.add_molecule()
     oxygen.add_element(o,2)
 
     hydrogen = system.add_molecule()
     hydrogen.add_element(h,2)
-
-    water = system.add_molecule()
-    water.add_element(h,2)
-    water.add_element(o,1)
 
     glucose = system.add_molecule()
     glucose.add_element(c,6)
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     burning_methane.add_product(carbon_dioxide,1)
     burning_methane.add_product(water,2)
 
-    print(json.dumps(system.save()))
+    print(json.dumps(system.save(), indent=3))

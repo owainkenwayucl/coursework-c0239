@@ -1,4 +1,5 @@
 from chemistry import Molecule, Element, Reaction, System, SaveSystem
+import yaml
 
 if __name__ == '__main__':
     h = Element('H')
@@ -50,7 +51,5 @@ if __name__ == '__main__':
     reactions.add_reaction(burning_hydrogen)
     reactions.add_reaction(burning_methane)
 
-    print(reactions)
-
     saver = SaveSystem()
-    print(saver.save(reactions))
+    print(yaml.dump(saver.save(reactions)))

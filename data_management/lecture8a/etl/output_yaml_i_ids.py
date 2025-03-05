@@ -1,5 +1,5 @@
 from chemistry_id import System
-import yaml
+import json
 
 if __name__ == '__main__':
 
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     burning_methane.add_product(carbon_dioxide,1)
     burning_methane.add_product(water,2)
 
-    print(yaml.dump(system.save()))
+    print(json.dumps(system.save()))

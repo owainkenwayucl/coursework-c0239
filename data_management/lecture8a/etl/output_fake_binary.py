@@ -48,4 +48,4 @@ if __name__ == '__main__':
     burning_methane.add_product(carbon_dioxide,1)
     burning_methane.add_product(water,2)
 
-    print(FakeSaveBinary().save(system,[])
+    print(FakeSaveBinary().save(system,[]))

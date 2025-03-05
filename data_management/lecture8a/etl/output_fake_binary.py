@@ -49,5 +49,5 @@ if __name__ == '__main__':
     burning_methane.add_product(water,2)
 
     buffer = []
-    FakeSaveBinary().save(system,[])
+    FakeSaveBinary().save(system,buffer)
     print(buffer)

@@ -7,5 +7,5 @@ with sqlite() as db:
     create_tables(db)
     s = session(db)
     reactions = ORD_to_SQLAlchemy(model)
-    add_items(reaction, s)
+    add_items(reactions, s)
     s.commit()

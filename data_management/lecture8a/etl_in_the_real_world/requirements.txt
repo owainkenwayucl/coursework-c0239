@@ -2,7 +2,7 @@ pyyaml
 h5py
 ord-schema
 numpy
-pysmiles
+pysmiles==1.1.2
 SQLAlchemy
 jupyter
 psycopg2-binary

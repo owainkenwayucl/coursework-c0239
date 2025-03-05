@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine
 from sqlalchemy.orm import relationship, declarative_base, mapped_column, Mapped
 from typing import List
+from contextlib import contextmanager
 import logging
+import os
 
 Base = declarative_base()
 cascade = "all, delete-orphan"
@@ -89,3 +91,20 @@ def add_item(item, session):
     logger.debug(f"Saving reaction")
     session.add(to_save)
     session.flush()
+
+@contextmanager
+def sqlite():
+    engine = create_engine('sqlite:///test.db')
+    yield engine
+    try:
+        os.remove('test.db')
+    except FileNotFoundError:
+        pass # If we're using nested managers, this can happen.
+
+@contextmanager
+def sqlite_file():
+    yield 'sqlite:///test.db'
+    try:
+        os.remove('test.db')
+    except FileNotFoundError:
+        pass # If we're using nested managers, this can happen.

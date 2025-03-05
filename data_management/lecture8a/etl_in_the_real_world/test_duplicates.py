@@ -1,4 +1,4 @@
-from chemistry import Element, Molecule, Reaction, session, add_items, create_tables
+from chemistry import Element, Molecule, Reaction, session, add_items, create_tables, sqlite
 
 def tiny_db():
     oxygen = Element(symbol='O')
@@ -30,3 +30,6 @@ def test_model_duplicated():
         s = session(db)
         add_items(tiny_db()+tiny_db(), s)
         s.commit()
+
+if __name__ == '__main__':
+    test_model_duplicated()

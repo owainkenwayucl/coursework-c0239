@@ -35,9 +35,9 @@ if __name__ == '__main__':
     burning_glucose.add_product(water, 6)
 
     burning_hydrogen = Reaction()
-    burning_glucose.add_reactant(hydrogen,2)
-    burning_glucose.add_reactant(oxygen,1)    
-    burning_glucose.add_product(water, 2)
+    burning_hydrogen.add_reactant(hydrogen,2)
+    burning_hydrogen.add_reactant(oxygen,1)    
+    burning_hydrogen.add_product(water, 2)
 
     burning_methane = Reaction()
     burning_methane.add_reactant(methane,1)

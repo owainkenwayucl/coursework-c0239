@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy.orm import relationship, declarative_base, mapped_column, Mapped
+from typing import List
 
 #engine = create_engine('sqlite:///molecules.db')
 Base = declarative_base()

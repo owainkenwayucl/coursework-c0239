@@ -1,3 +1,5 @@
+import numpy
+
 class Element:
     def __init__(self, symbol, id):
         self.symbol = symbol
@@ -155,3 +157,48 @@ class XDRSavingSystem(System):
         
         buffer.pack_array(self.reactions, _pack_reaction)
         return buffer
+
+class HDF5SavingSystem(System):
+    def __init__(self, system):
+        # Shallow Copy constructor
+        self.elements = system.elements
+        self.reactions = system.reactions
+        self.molecules = system.molecules
+        
+    def element_symbols(self):
+        return list(map(lambda x: x.symbol.encode('ascii'), 
+                                   self.elements))
+    
+    def molecule_matrix(self):
+        molecule_matrix = numpy.zeros((len(self.elements), 
+                                    len(self.molecules)),dtype=int)
+        
+        for molecule in self.molecules:
+            for element, n in molecule.elements.items():
+                molecule_matrix[element.id,
+                            molecule.id]=n
+            
+        return molecule_matrix
+    
+    def reaction_matrix(self):
+        reaction_matrix = numpy.zeros((len(self.molecules), 
+                                    len(self.reactions)),dtype=int)
+        
+        for i, reaction in enumerate(self.reactions):
+            for reactant,n in reaction.reactants.items():
+                reaction_matrix[reactant.id,i]=-1*n
+            
+            for product, n in reaction.products.items():
+                reaction_matrix[product.id,i]=n
+    
+        return reaction_matrix
+    
+    def write(self, filename):
+        import h5py
+        hdf = h5py.File(filename,'w')
+        string_type = h5py.special_dtype(vlen=bytes)
+        hdf.create_dataset('symbols', (len(self.elements),1),
+                           string_type, self.element_symbols())
+        hdf.create_dataset('molecules', data=self.molecule_matrix())
+        hdf.create_dataset('reactions', data=self.reaction_matrix())
+        hdf.close()

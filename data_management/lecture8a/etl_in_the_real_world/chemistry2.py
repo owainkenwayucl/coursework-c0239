@@ -97,7 +97,6 @@ def add_item(item, session):
     logger.debug(f"Merging reaction") # flip this stuff so that merging works
     to_save = session.merge(item)
     logger.debug(f"Saving reaction")
-    session.add(item)
     session.add(to_save)
     session.flush()
 

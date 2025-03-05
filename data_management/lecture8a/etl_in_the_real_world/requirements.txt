@@ -3,3 +3,6 @@ h5py
 ord-schema
 numpy
 pysmiles
+SQLAlchemy
+jupyter
+psycopg2-binary

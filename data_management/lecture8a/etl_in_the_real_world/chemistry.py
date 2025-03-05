@@ -1,14 +1,18 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, create_engine
-from sqlalchemy.orm import relationship, declarative_base, mapped_column, Mapped, sessionmaker
+"""
+This file describes the data model which we will use.
+It uses SQLAlchemy ORM to define the database tables.
+"""
+
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, declarative_base, sessionmaker, mapped_column, Mapped
 from typing import List
-from contextlib import contextmanager
-import logging
-import os
 
 Base = declarative_base()
 cascade = "all, delete-orphan"
 
+import logging
 logger = logging.getLogger('ETL')
+
 
 class AtomsPerMolecule(Base):
     __tablename__ = "_atoms_per_molecule_"
@@ -21,7 +25,7 @@ class AtomsPerMolecule(Base):
 class Element(Base):
     __tablename__ = "elements"
     symbol: Mapped[str] = mapped_column(primary_key=True)
-    molecules: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="element")
+    molecules: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="element",  cascade=cascade)
 
 elements = {}
 
@@ -29,6 +33,7 @@ def element_factory(symbol):
     if not symbol in elements:
         elements[symbol] = Element(symbol = symbol)
     return elements[symbol]
+
 
 class Participant(Base):
     __tablename__ = "participant"
@@ -41,9 +46,10 @@ class Participant(Base):
 class Molecule(Base):
     __tablename__ = "molecules"
     name: Mapped[str] = mapped_column(primary_key=True)
-    elements: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="molecule")
-    reactions: Mapped[List["Participant"]] = relationship(back_populates= "molecule")
-    def add_atom(self, number, atom):
+    elements: Mapped[List["AtomsPerMolecule"]] = relationship(back_populates="molecule",  cascade=cascade)
+    reactions: Mapped[List["Participant"]] = relationship(back_populates= "molecule",  cascade=cascade)
+    def add_atom(self, number, symbol):
+        atom = element_factory(symbol)
         result = AtomsPerMolecule(number = number)
         result.element = atom
         self.elements.append(result)
@@ -52,13 +58,13 @@ class Molecule(Base):
 class Reaction(Base):
     __tablename__ = "reactions"
     id : Mapped[int]= mapped_column(primary_key=True)
-    molecules : Mapped[List[Participant]] = relationship(back_populates = "reaction")
+    molecules : Mapped[List[Participant]] = relationship(back_populates = "reaction",  cascade=cascade)
     def add_participant(self, stoichiometry, molecule):
         result = Participant(stoichiometry=stoichiometry)
         result.molecule=molecule
         self.molecules.append(result)
         return result
-
+    
     def reactants(self):
         for participant in self.molecules:
             if participant.stoichiometry <0 :
@@ -69,6 +75,7 @@ class Reaction(Base):
             if participant.stoichiometry >0 :
                 yield participant
     
+
 
 def create_tables(engine):
     Base.metadata.create_all(engine)
@@ -92,9 +99,11 @@ def add_item(item, session):
     session.add(to_save)
     session.flush()
 
+from contextlib import contextmanager
+
 @contextmanager
 def sqlite():
-    engine = create_engine('sqlite:///test.db')
+    engine = sqlalchemy.create_engine('sqlite:///test.db')
     yield engine
     try:
         os.remove('test.db')

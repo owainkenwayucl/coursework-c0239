@@ -5,23 +5,23 @@ if __name__ == '__main__':
 
     system = System()
 
-    h = system.add_element('H')
     c = system.add_element('C')
     o = system.add_element('O')
+    h = system.add_element('H')
 
     carbon_dioxide = system.add_molecule()
     carbon_dioxide.add_element(c,1)
     carbon_dioxide.add_element(o,2)
+
+    water = system.add_molecule()
+    water.add_element(h,2)
+    water.add_element(o,1)
 
     oxygen = system.add_molecule()
     oxygen.add_element(o,2)
 
     hydrogen = system.add_molecule()
     hydrogen.add_element(h,2)
-
-    water = system.add_molecule()
-    water.add_element(h,2)
-    water.add_element(o,1)
 
     glucose = system.add_molecule()
     glucose.add_element(c,6)

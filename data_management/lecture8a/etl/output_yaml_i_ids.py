@@ -6,7 +6,7 @@ if __name__ == '__main__':
 
     h = system.add_element('H')
     c = system.add_element('C')
-    o = system.add_elementt('O')
+    o = system.add_element('O')
 
     carbon_dioxide = system.add_molecule()
     carbon_dioxide.add_element(c,1)

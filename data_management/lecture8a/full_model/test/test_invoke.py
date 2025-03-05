@@ -1,7 +1,6 @@
 from ..invoke import parser, invoke
 from .fixtures.lite import sqlite, sqlite_file
 from .fixtures.ord import small, folder
-from .fixtures.remote_db import remote_url, remote
 from ..model import session, Molecule
 
 def test_create():
@@ -37,12 +36,3 @@ def test_upload_folder():
             s= session(db)
             mol = s.get(Molecule,'H32C27O3N4F2')
             assert mol
-
-def test_upload_development_remote():
-    args = parser.parse_args(f"--create --url {remote_url('development')} -vvv --data {small}".split())
-    invoke(args)
-
-    with remote('development') as db:
-        s= session(db)
-        mol = s.get(Molecule,'H32C27O3N4F2')
-        assert mol

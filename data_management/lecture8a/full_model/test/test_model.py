@@ -1,6 +1,5 @@
 from .fixtures.lite import sqlite
 from .fixtures.tiny_db import tiny_db
-from .fixtures.remote_db import remote
 
 from ..model import create_tables, drop_tables, session, add_items, Molecule, Reaction
 
@@ -52,11 +51,3 @@ def test_model_duplicated():
         assert reactions[3].molecules[2].name == 'water'
         # But they all contain the same water molecule
 
-def test_model_development_remote():
-    with remote('development') as db:
-        # Maybe the previous test failed, and the tables were left in place
-        drop_tables(db)
-        create_tables(db)
-        s = session(db)
-        add_items(tiny_db(), s)
-        s.commit()

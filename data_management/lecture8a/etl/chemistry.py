@@ -132,3 +132,60 @@ class SaveSystem:
                 for reaction in system.reactions]
             }
         return result
+
+class SaveSystemI:
+    def __init__(self):
+        self.elements = {}
+        self.molecules = {}
+        
+    def add_element(self, element):
+        if element not in self.elements:
+            self.elements[element]=len(self.elements)
+        return self.elements[element]
+        
+    def add_molecule(self, molecule):
+        if molecule not in self.molecules:
+            self.molecules[molecule]=len(self.molecules)
+        return self.molecules[molecule]
+        
+    def element_key(self, element):
+        return self.elements[element]
+    
+    def molecule_key(self, molecule):
+        return self.molecules[molecule]
+    
+    def save(self, system):
+        for reaction in system.reactions:
+            for molecule in reaction.reactants:
+                self.add_molecule(molecule)
+                for element in molecule.elements:
+                    self.add_element(element)
+            for molecule in reaction.products:
+                self.add_molecule(molecule)
+                for element in molecule.elements:
+                    self.add_element(element)
+                    
+        result = {
+            'elements' : [element.symbol
+                          for element in self.elements],
+            'molecules' : {
+                self.molecule_key(molecule):
+                    {self.element_key(element): number
+                          for element, number
+                          in molecule.elements.items()}
+                    for molecule in self.molecules},
+            'reactions' : [{
+                'reactants' : {
+                    self.molecule_key(reactant) : stoich
+                        for reactant, stoich
+                        in reaction.reactants.items()
+                },
+                'products' : {
+                    self.molecule_key(product) : stoich
+                        for product, stoich
+                        in reaction.products.items()
+                    
+                }}
+                for reaction in system.reactions]
+            }
+        return result

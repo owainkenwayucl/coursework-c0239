@@ -6,6 +6,6 @@ model = file_to_model("ds_fix_1.pb.gz")
 with sqlite() as db:
     create_tables(db)
     s = session(db)
-    reactions = ORD_to_SQLAlchemy(model, s)
+    reactions = ORD_to_SQLAlchemy(model)
     add_items(reaction, s)
     s.commit()

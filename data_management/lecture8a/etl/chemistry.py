@@ -80,3 +80,55 @@ class DeSerialiseStructure:
                                stoichiometries.pop(0))
             s.add_reaction(r)
         return s
+
+class SaveSystem:
+    def __init__(self):
+        self.elements = set()
+        self.molecules = set()
+        
+    def element_key(self, element):
+        
+        return element.symbol
+    
+    def molecule_key(self, molecule):
+        key=''
+        for element, number in molecule.elements.items():
+            key+=element.symbol
+            key+=str(number)
+        return key
+    
+    def save(self, system):
+        for reaction in system.reactions:
+            for molecule in reaction.reactants:
+                self.molecules.add(molecule)
+                for element in molecule.elements:
+                    self.elements.add(element)
+            for molecule in reaction.products:
+                self.molecules.add(molecule)
+                for element in molecule.elements:
+                    self.elements.add(element)
+                    
+        result = {
+            'elements' : [self.element_key(element)
+                          for element in self.elements],
+            'molecules' : {
+                self.molecule_key(molecule):
+                    {self.element_key(element): number
+                          for element, number
+                          in molecule.elements.items()}
+                    for molecule in self.molecules},
+            'reactions' : [{
+                'reactants' : {
+                    self.molecule_key(reactant) : stoich
+                        for reactant, stoich
+                        in reaction.reactants.items()
+                },
+                'products' : {
+                    self.molecule_key(product) : stoich
+                        for product, stoich
+                        in reaction.products.items()
+                    
+                }}
+                for reaction in system.reactions]
+            }
+        return result

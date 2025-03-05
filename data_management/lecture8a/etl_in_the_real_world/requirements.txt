@@ -2,3 +2,4 @@ pyyaml
 h5py
 ord-schema
 numpy
+pysmiles

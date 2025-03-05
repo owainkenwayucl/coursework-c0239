@@ -1,16 +1,14 @@
 from chemistry import Element, Molecule, Reaction
 
 def tiny_db():
-    oxygen = Element(symbol='O')
-    hydrogen = Element(symbol='H')
     water = Molecule(name='water')
     oxygen_m = Molecule(name='oxygen')
     hydrogen_m = Molecule(name='hydrogen')
 
-    water.add_atom(1, oxygen)
-    water.add_atom(2, hydrogen)
-    oxygen_m.add_atom(2, oxygen)
-    hydrogen_m.add_atom(2, hydrogen)
+    water.add_atom(1, 'O')
+    water.add_atom(2, 'H')
+    oxygen_m.add_atom(2, 'O')
+    hydrogen_m.add_atom(2, 'H')
     
     water_formation = Reaction()
     water_formation.add_participant(-2, hydrogen_m)

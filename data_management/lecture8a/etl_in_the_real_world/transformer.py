@@ -66,3 +66,19 @@ def collapse_smiles(smiles):
         result['H'] += node['hcount']
     
     return result
+
+def files_to_model(path):
+    # Given path is a path to a message, or a glob to be globbed for messages.
+    # Should recursive
+    logger.debug(f"Path to data {path}")
+    files = glob(path)
+    logger.info(f"Found {len(files)} files to parse")
+    logger.debug(f"Files to parse: \n {files}")
+    result= reduce(lambda x, y: x+y, map(file_to_model, files))
+    logger.info(f"Found {len(result)} reactions to process.")
+    return result
+
+def file_to_model(path):
+    data = message_helpers.load_message(path, Dataset)
+    validations.validate_message(data)
+    return list(data.reactions)

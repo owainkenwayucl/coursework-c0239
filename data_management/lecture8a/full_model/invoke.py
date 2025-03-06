@@ -3,7 +3,6 @@ from sqlalchemy import create_engine
 
 from .transformer import files_to_model, ORD_to_SQLAlchemy, reaction_to_structure
 from .model import add_items, session, create_tables
-from .helpers import json_to_s3
 
 from rdkit import RDLogger
 
@@ -19,7 +18,6 @@ parser.add_argument('--url', "-u", help="URL for remote connection")
 parser.add_argument('--data', "-d", help="Path to a folder containing Protocol Buffer ORD messages")
 parser.add_argument("--verbose", "-v", action='count', default = 0 )
 parser.add_argument("--create", "-c", help="Create the database tables", action="store_true")
-parser.add_argument("--s3","-s", help = "Send to s3 JSON tables instead of a DB")
 parser.add_argument("--no_upload", "-n", help="Parse the data, but don't attempt to send to the database", action="store_true")
 
 def invoke_entry():
@@ -73,12 +71,3 @@ def transform(path, database):
     model = files_to_model(path)
     data = ORD_to_SQLAlchemy(model, database)
     logger.info(f"Processed {len(data)} reactions.")
-
-def s3_transform(path, uri):
-    
-    model = files_to_model(path)
-    for (reaction, id) in enumerate(model):
-        structure = reaction_to_structure(reaction)
-        json_to_s3(uri, f"reactions/id", structure)
-        
-    

@@ -6,22 +6,22 @@ import io
 def make_client(configfile):
     data = {
         "endpoint": "localhost",
-        "access_key": NULL,
-        "secret_key": NULL
+        "access_key": "",
+        "secret_key": ""
     }
 
     with open(configfile, 'r') as file:
-        data = json.load(file)
+        data = load(file)
 
-    client = Minio(data["endpoint"], access_key=data["access_key"], secret_key=data["secret_key"])
+    client = Minio(data["endpoint"], access_key=data["access_key"], secret_key=data["secret_key"], cert_check=False)
     return client
 
 s3_resource = make_client("s3.json")
 
 def json_to_s3(uri, name, data):
-    found = client.bucket_exists(uri)
+    found = s3_resource.bucket_exists(uri)
     if not found:
-        client.make_bucket(uri)
+        s3_resource.make_bucket(uri)
    
-    content = io.BytesIO(dumps(data))
-    client.put_object(uri, name, content, len(content))
+    content = dumps(data).encode("utf-8")
+    s3_resource.put_object(uri, name, io.BytesIO(content), len(content))

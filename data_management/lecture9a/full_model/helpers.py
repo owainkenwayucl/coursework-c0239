@@ -2,6 +2,12 @@ from json import dumps, load
 from minio import Minio
 from minio.error import S3Error
 import io
+import urllib3
+
+httpclient = urllib3.PoolManager(
+    cert_reqs='CERT_REQUIRED',
+    ca_certs='/home/almalinux/.mc/certs/CAs/local.crt'
+)
 
 def make_client(configfile):
     data = {
@@ -13,7 +19,7 @@ def make_client(configfile):
     with open(configfile, 'r') as file:
         data = load(file)
 
-    client = Minio(data["endpoint"], access_key=data["access_key"], secret_key=data["secret_key"], cert_check=False)
+    client = Minio(data["endpoint"], access_key=data["access_key"], secret_key=data["secret_key"], http_client=httpclient)
     return client
 
 s3_resource = make_client("s3.json")

@@ -8,3 +8,4 @@ jupyter
 psycopg2-binary
 minio
 pytest
+trino

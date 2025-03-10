@@ -7,7 +7,7 @@ def remote_trino(stage):
     conn = connect(
         host=remote_host(stage, "Trino"),
         port=80,
-        user="jamespjh",
+        user="almalinux",
         catalog="hive"
     )
     cur = conn.cursor()

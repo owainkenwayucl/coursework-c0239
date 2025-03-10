@@ -6,7 +6,7 @@ import urllib3
 
 httpclient = urllib3.PoolManager(
     cert_reqs='CERT_REQUIRED',
-    ca_certs='/home/almalinux/.mc/certs/CAs/local.crt'
+#    ca_certs='/home/almalinux/.mc/certs/CAs/local.crt'
 )
 
 def make_client(configfile):

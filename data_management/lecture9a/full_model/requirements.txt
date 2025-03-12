@@ -10,3 +10,4 @@ minio
 pytest
 trino
 jinja2
+lxml

@@ -9,3 +9,4 @@ psycopg2-binary
 minio
 pytest
 trino
+jinja2

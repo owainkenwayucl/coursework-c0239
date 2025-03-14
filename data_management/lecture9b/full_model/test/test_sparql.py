@@ -1,4 +1,4 @@
-from ..fixtures.sparql import remote_sparql, remote_sparql_update
+from .fixtures.sparql import remote_sparql, remote_sparql_update
 
 def test_remote_sparql_exists():
     with remote_sparql_update("development") as writer:

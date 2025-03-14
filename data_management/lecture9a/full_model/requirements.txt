@@ -11,3 +11,4 @@ pytest
 trino
 jinja2
 lxml
+rdflib

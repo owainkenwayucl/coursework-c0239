@@ -9,7 +9,7 @@ with open('system.ttl','w') as ttlfile:
 graph = Graph()
 graph.parse("system.ttl", format="ttl")
 
-results=graph.query(
+results=graph.update(
     """INSERT { ?elementa arcr:inMoleculeWith ?elementb }
        WHERE {
           ?molecule arcr:hasElementQuantity ?a .

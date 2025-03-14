@@ -6,7 +6,7 @@
 virtualenv wk9b
 source wk9b/bin/activate
 wd=$(pwd)
-cd ../lecture9a/full_model
+cd full_model
 pip install -r requirements.txt
 cd ..
 export PYTHONPATH=$(pwd):$PYTHONPATH

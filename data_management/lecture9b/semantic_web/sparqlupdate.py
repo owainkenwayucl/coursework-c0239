@@ -10,7 +10,7 @@ graph = Graph()
 graph.parse("system.ttl", format="ttl")
 
 results=graph.query(
-    """SELECT DISTINCT ?asymbol ?bsymbol
+    """INSERT { ?elementa arcr:inMoleculeWith ?elementb }
        WHERE {
           ?molecule arcr:hasElementQuantity ?a .
           ?a arcr:countedElement ?elementa .
@@ -18,7 +18,8 @@ results=graph.query(
           ?molecule arcr:hasElementQuantity ?b .
           ?b arcr:countedElement ?elementb .
           ?elementb arcr:symbol ?bsymbol
-       }""")
+       }
+       """)
 
 q = """
 SELECT DISTINCT ?asymbol ?bsymbol

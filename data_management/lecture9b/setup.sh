@@ -8,6 +8,7 @@ source wk9b/bin/activate
 wd=$(pwd)
 cd ../lecture9a/full_model
 pip install -r requirements.txt
+cd ..
 export PYTHONPATH=$(pwd):$PYTHONPATH
 cd ${wd}
 unset wd
